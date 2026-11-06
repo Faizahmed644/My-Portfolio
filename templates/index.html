@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A creative personal portfolio built with Python and Flask.">
+  <title>{{ profile.name }} | Portfolio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Go to home"><span class="brand-mark">✳</span> portfolio<span class="dot">.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a class="nav-contact" href="#contact">Say hello ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-wrap" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> OPEN TO LEARNING & BUILDING</p>
+        <h1>Hey, I'm <span class="gradient-text">{{ profile.name }}</span><span class="wave">✌</span></h1>
+        <h2>{{ profile.role }}</h2>
+        <p class="hero-description">{{ profile.tagline }}</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">Explore my work <span>↘</span></a>
+          <a class="button button-quiet" href="#about">A little about me</a>
+        </div>
+        <div class="hero-note"><span class="sparkle">✦</span> Currently learning Flask and web development</div>
+      </div>
+      <div class="hero-art" aria-label="Decorative colorful abstract artwork">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="art-sun"></div>
+        <div class="art-card art-card-top">IDEAS → CODE</div>
+        <div class="art-card art-card-bottom"><span>PY</span> made with curiosity</div>
+        <div class="art-star star-one">✳</div>
+        <div class="art-star star-two">✦</div>
+        <div class="art-label">CREATIVE<br>BY NATURE</div>
+      </div>
+      <a class="scroll-cue" href="#about">SCROLL TO EXPLORE <span>↓</span></a>
+    </section>
+
+    <section class="about section-wrap section-block" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">01 / THE PERSON BEHIND THE CODE</p>
+        <h2>A little about <span class="gradient-text">me.</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-sticker">LEARNING<br>BY DOING <span>✷</span></div>
+        <div class="about-copy">
+          <p class="lead">{{ profile.about }}</p>
+          <p class="muted">My goal is to keep improving one project at a time, learn good development habits, and create work that is both useful and enjoyable to use.</p>
+          <div class="about-meta"><span>⌁ {{ profile.location }}</span><span>✉ {{ profile.email }}</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="skills section-wrap section-block" id="skills">
+      <div class="section-heading">
+        <p class="eyebrow">02 / TOOLS IN MY TOOLBOX</p>
+        <h2>Skills I'm <span class="gradient-text">growing.</span></h2>
+      </div>
+      <div class="skill-list">
+        {% for skill in skills %}
+        <span class="skill-pill"><span class="skill-symbol">✳</span>{{ skill }}</span>
+        {% endfor %}
+      </div>
+      <p class="muted skill-footnote">This list is a work in progress—just like me.</p>
+    </section>
+
+    <section class="projects section-wrap section-block" id="projects">
+      <div class="section-heading heading-row">
+        <div>
+          <p class="eyebrow">03 / SELECTED EXPERIMENTS</p>
+          <h2>Things I've <span class="gradient-text">made.</span></h2>
+        </div>
+        <p class="muted heading-side-note">Small steps. Real projects.<br>Always learning.</p>
+      </div>
+      <div class="project-grid">
+        {% for project in projects %}
+        <article class="project-card {{ project.color }}">
+          <div class="project-top"><span class="project-number">{{ project.number }}</span><span class="project-arrow">↗</span></div>
+          <div class="project-illustration">
+            {% if project.color == "peach" %}
+              <div class="mini-window"><span></span><span></span><span></span><div class="mini-lines"><i></i><i></i><i></i></div><b>Rs. 1,250</b></div>
+            {% elif project.color == "lilac" %}
+              <div class="mini-browser"><div class="browser-bar">● ● ●</div><div class="browser-shape"></div><div class="browser-line"></div></div>
+            {% else %}
+              <div class="mini-orbit"><span>✳</span><i></i><b>IDEA!</b></div>
+            {% endif %}
+          </div>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <div class="tag-list">{% for tag in project.tags %}<span>{{ tag }}</span>{% endfor %}</div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="contact section-wrap section-block" id="contact">
+      <div class="contact-panel">
+        <div class="contact-copy">
+          <p class="eyebrow">04 / YOUR TURN</p>
+          <h2>Have an idea?<br><span class="contact-highlight">Let's talk.</span></h2>
+          <p>Use this demo form to test the page. It doesn't send email yet, but you can connect email delivery later.</p>
+          <a class="contact-email" href="mailto:{{ profile.email }}">{{ profile.email }} ↗</a>
+        </div>
+        <form class="contact-form" method="POST" action="#contact">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" placeholder="Jane Doe" required>
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" placeholder="jane@example.com" required>
+          <label for="message">What's on your mind?</label>
+          <textarea id="message" name="message" rows="3" placeholder="Tell me about your idea..." required></textarea>
+          <button class="button button-dark" type="submit">Test the form <span>↗</span></button>
+          {% if message %}<p class="form-message" role="status">{{ message }}</p>{% endif %}
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-wrap">
+    <a class="brand" href="#home"><span class="brand-mark">✳</span> portfolio<span class="dot">.</span></a>
+    <p>Designed with curiosity. Built with Python + Flask.</p>
+    <a href="#home">Back to top ↑</a>
+  </footer>
+  <script>
+    // Small interaction: smoothly scroll when a navigation link is clicked.
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
